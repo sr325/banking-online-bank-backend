@@ -5,11 +5,27 @@ User X bank account detail.
 Account Uid is an unique number representing a particular account
 defaultCategory could be business or personal or charity
  */
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "ACCOUNT")
 public class Account {
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private int accountUid;
+
+    @Column(name = "description")
     private String description;
-    private String accountUid;
+
+    @Column(name = "defaultCategory")
     private String defaultCategory;
+
+    @Column(name = "currency")
     private String currency;
+
+    @Column(name = "createdAt")
     private String createdAt;
 
     public String getDescription() {
@@ -20,11 +36,11 @@ public class Account {
         this.description = description;
     }
 
-    public String getAccountUid() {
+    public int getAccountUid() {
         return accountUid;
     }
 
-    public void setAccountUid(String accountUid) {
+    public void setAccountUid(int accountUid) {
         this.accountUid = accountUid;
     }
 
