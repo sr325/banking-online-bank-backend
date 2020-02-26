@@ -23,12 +23,11 @@ import java.util.Properties;
 public class DatabaseConfig {
 
 @Bean
-    public DataSource dataSource() {
+   public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        @Value("")
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        dataSource.setPassword("");
         dataSource.setUrl("jdbc:mysql://localhost:3306/onlineBank?createDatabaseIfNotExist=true");
         return dataSource;
     }
@@ -40,7 +39,14 @@ public class DatabaseConfig {
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(new String[]{"com.online.bank.digital.model"});
-        em.setJpaProperties(additionalProperties());
+
+        Properties properties = new Properties();
+        properties.setProperty("spring.jpa.hibernate.ddl-auto", "update");
+        properties.setProperty("hibernate.show_sql", "true");
+        properties.setProperty("hibernate.hbm2ddl.auto", "validate");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+
+        em.setJpaProperties(properties);
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
@@ -60,17 +66,15 @@ public class DatabaseConfig {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-
+/*
     @Bean
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");
+        properties.setProperty("spring.jpa.hibernate.ddl-auto", "update");
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.hbm2ddl.auto", "validate");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         return properties;
     }
-
-
-
+*/
 }

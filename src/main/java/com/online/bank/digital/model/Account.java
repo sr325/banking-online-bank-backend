@@ -8,12 +8,13 @@ defaultCategory could be business or personal or charity
 
 import javax.persistence.*;
 
+import static javax.persistence.GenerationType.SEQUENCE;
+
 @Entity
 @Table(name = "ACCOUNT")
 public class Account {
     @Id
-    @GeneratedValue
-    @Column(name = "id")
+    @Column(name = "accountUid")
     private int accountUid;
 
     @Column(name = "description")
@@ -27,6 +28,17 @@ public class Account {
 
     @Column(name = "createdAt")
     private String createdAt;
+
+    public Account() {
+    }
+
+    public Account(int accountUid, String description, String defaultCategory, String currency, String createdAt) {
+        this.accountUid = accountUid;
+        this.description = description;
+        this.defaultCategory = defaultCategory;
+        this.currency = currency;
+        this.createdAt = createdAt;
+    }
 
     public String getDescription() {
         return description;

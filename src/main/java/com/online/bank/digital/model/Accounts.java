@@ -1,10 +1,13 @@
+/*
 package com.online.bank.digital.model;
 
 import javax.persistence.*;
 import java.util.List;
+*/
 /*
 The list of accounts of an account holder
- */
+ *//*
+
 @Entity
 @Table(name = "ACCOUNTS")
 public class Accounts {
@@ -34,3 +37,4 @@ public class Accounts {
         this.accounts = accounts;
     }
 }
+*/
