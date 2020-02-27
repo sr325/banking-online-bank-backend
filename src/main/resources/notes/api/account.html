@@ -1,0 +1,19 @@
+Accounts
+
+1. Get an account holder's bank accounts
+/api/v2/accounts
+
+2. Get an account's bank identifiers
+/api/v2/accounts/{accountUid}/identifiers
+
+3. Get an account's balance
+/api/v2/accounts/{accountUid}/balance
+
+4. Post an account
+/api/v2/accounts - RequestBody Account
+
+ACCOUNT, ACCOUNTS, ACCOUNT HOLDER and ACCOUNT HOLDER TYPE relationship
+- An Account explains user's account details
+- Accounts is list of a single user's accounts
+- Account holder saves personal detail of the user
+- Account holder type saves the type and registration details of the user

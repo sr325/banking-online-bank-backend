@@ -1,14 +1,6 @@
 package com.online.bank.digital.model;
 
-/*
-User X bank account detail.
-Account Uid is an unique number representing a particular account
-defaultCategory could be business or personal or charity
- */
-
 import javax.persistence.*;
-
-import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity
 @Table(name = "ACCOUNT")
@@ -28,6 +20,15 @@ public class Account {
 
     @Column(name = "createdAt")
     private String createdAt;
+
+    @Column(name = "balanceUid")
+    private Balance balance;
+
+    @Column(name = "accountLimits")
+    private AccountLimits accountLimits;
+
+    @Column(name = "accountType")
+    private AccountType accountType;
 
     public Account() {
     }
@@ -78,5 +79,29 @@ public class Account {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Balance getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Balance balance) {
+        this.balance = balance;
+    }
+
+    public AccountLimits getAccountLimits() {
+        return accountLimits;
+    }
+
+    public void setAccountLimits(AccountLimits accountLimits) {
+        this.accountLimits = accountLimits;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 }
