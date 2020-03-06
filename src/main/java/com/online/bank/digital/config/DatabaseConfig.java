@@ -28,7 +28,7 @@ public class DatabaseConfig {
    public DataSource dataSource(@Value("${spring.datasource.url}") String url,
                                 @Value("${spring.datasource.username}") String username,
                                 @Value("${spring.datasource.password}") String password,
-                                @Value("${database.driver }") String driver) {
+                                @Value("${database.driver}") String driver) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driver);
         dataSource.setUsername(username);
@@ -46,8 +46,8 @@ public class DatabaseConfig {
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        em.setPackagesToScan("com.online.bank.digital.model");
         em.setJpaProperties(jpaProps);
+        em.setPackagesToScan("com.online.bank.digital.model");
         return em;
     }
 
@@ -61,11 +61,13 @@ public class DatabaseConfig {
     }
 
     @Bean(name = "jpaProperties")
-    public Properties sqlJpaProperties(@Value("${spring.jpa.hibernate.ddl-auto}") String ddlAuto){
+    public Properties sqlJpaProperties(@Value("${spring.jpa.hibernate.ddl-auto}") String ddlAuto,
+                                       @Value("${spring.jpa.properties.hibernate.dialect}") String dialect,
+                                       @Value("${spring.jpa.hibernate.naming-strategy}") String namingStrategy){
         Properties jpaProperties = new Properties();
-        jpaProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.OracleDialect");
+        jpaProperties.setProperty("hibernate.dialect", dialect);
         jpaProperties.setProperty("hibernate.hbm2ddl.auto", ddlAuto);
-        jpaProperties.setProperty("hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
+        jpaProperties.setProperty("hibernate.ejb.naming_strategy", namingStrategy);
         jpaProperties.setProperty("hibernate.show_sql", "false");
         jpaProperties.setProperty("hibernate.generate_statistics", "false");
         jpaProperties.setProperty("hibernate.use_sql_commands", "false");
