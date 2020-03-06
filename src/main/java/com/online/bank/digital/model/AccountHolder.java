@@ -1,19 +1,21 @@
 package com.online.bank.digital.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Data;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "ACCOUNT_HOLDER")
+@Data
 public class AccountHolder {
-    @Id
+    @Id @GeneratedValue
     @Column(name = "accountHolderUid")
     private int accountHolderUid;
 
-    @Column(name = "accounts")
-    private Accounts accounts;
+    @OneToMany
+    @JoinColumn(name = "accountUid")
+    private List<Account> accounts;
 
     @Column(name = "firstName")
     private String firstName;
@@ -24,6 +26,18 @@ public class AccountHolder {
     @Column(name = "emailAddress")
     private String emailAddress;
 
+    //e.g. personal or business
+    @Column(name = "category")
+    private String category;
+
+    public AccountHolder(int accountHolderUid, List<Account> accounts, String firstName, String lastName, String emailAddress, String category) {
+        this.accountHolderUid = accountHolderUid;
+        this.accounts = accounts;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+        this.category = category;
+    }
 
     public int getAccountHolderUid() {
         return accountHolderUid;
@@ -31,6 +45,14 @@ public class AccountHolder {
 
     public void setAccountHolderUid(int accountHolderUid) {
         this.accountHolderUid = accountHolderUid;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
     public String getFirstName() {
@@ -55,5 +77,13 @@ public class AccountHolder {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

@@ -1,73 +1,82 @@
 package com.online.bank.digital.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Data;
+
+import javax.persistence.*;
 
 /*
 What type of account he has? What type of card he holds? When did he opened an account?
  */
 
+
 @Entity
 @Table(name = "ACCOUNT_HOLDER_TYPE")
+@Data
 public class AccountType {
-    @Id
-    @Column(name = "accountHolderTypeUid")
-    private int accountHolderTypeUid;
+    @Id @GeneratedValue
+    @Column(name = "accountTypeUid")
+    private int accountTypeUid;
 
-    //fk of accountHolder
-    @Column(name = "accountHolderUid")
-    private int accountHolderUid;
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "accountUid")
+    private Account account;
 
     //individual or business
     @Column(name = "type")
-    private int type;
+    private String type;
 
     //basic or advanced
     @Column(name = "cardType")
-    private int cardType;
+    private String cardType;
 
     @Column(name = "registeredDate")
-    private int registeredDate;
+    private String registeredDate;
 
-    public int getAccountHolderTypeUid() {
-        return accountHolderTypeUid;
-    }
-
-    public void setAccountHolderTypeUid(int accountHolderTypeUid) {
-        this.accountHolderTypeUid = accountHolderTypeUid;
-    }
-
-    public int getAccountHolderUid() {
-        return accountHolderUid;
-    }
-
-    public int getCardType() {
-        return cardType;
-    }
-
-    public void setCardType(int cardType) {
+    public AccountType(int accountTypeUid, Account account, String type, String cardType, String registeredDate) {
+        this.accountTypeUid = accountTypeUid;
+        this.account = account;
+        this.type = type;
         this.cardType = cardType;
+        this.registeredDate = registeredDate;
     }
 
-    public void setAccountHolderUid(int accountHolderUid) {
-        this.accountHolderUid = accountHolderUid;
+    public int getAccountTypeUid() {
+        return accountTypeUid;
     }
 
-    public int getType() {
+    public void setAccountTypeUid(int accountTypeUid) {
+        this.accountTypeUid = accountTypeUid;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public int getRegisteredDate() {
+    public String getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+
+    public String getRegisteredDate() {
         return registeredDate;
     }
 
-    public void setRegisteredDate(int registeredDate) {
+    public void setRegisteredDate(String registeredDate) {
         this.registeredDate = registeredDate;
     }
 }

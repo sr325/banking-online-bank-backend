@@ -1,16 +1,17 @@
 package com.online.bank.digital.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "BALANCE")
 public class Balance {
-    @Id
+    @Id @GeneratedValue
     @Column(name = "balanceUid")
     private int balanceUid;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "accountUid")
+    private Account account;
 
     @Column(name = "currentAmount")
     private int amount;
@@ -18,11 +19,16 @@ public class Balance {
     @Column(name = "savingAmount")
     private int savingAmount;
 
-    @Column(name = "currentOverdraft")
-    private int currentOverdraft;
-
     @Column(name = "pendingTransactions")
     private int pendingTransactions;
+
+    public Balance(int balanceUid, Account account, int amount, int savingAmount, int pendingTransactions) {
+        this.balanceUid = balanceUid;
+        this.account = account;
+        this.amount = amount;
+        this.savingAmount = savingAmount;
+        this.pendingTransactions = pendingTransactions;
+    }
 
     public int getBalanceUid() {
         return balanceUid;
@@ -30,6 +36,14 @@ public class Balance {
 
     public void setBalanceUid(int balanceUid) {
         this.balanceUid = balanceUid;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public int getAmount() {
@@ -46,14 +60,6 @@ public class Balance {
 
     public void setSavingAmount(int savingAmount) {
         this.savingAmount = savingAmount;
-    }
-
-    public int getCurrentOverdraft() {
-        return currentOverdraft;
-    }
-
-    public void setCurrentOverdraft(int currentOverdraft) {
-        this.currentOverdraft = currentOverdraft;
     }
 
     public int getPendingTransactions() {

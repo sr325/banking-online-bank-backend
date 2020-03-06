@@ -1,19 +1,30 @@
 package com.online.bank.digital.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "ACCOUNT")
+@Data
 public class Account {
     @Id
+    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "accountUid")
     private int accountUid;
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "accountHolderUid")
+    private AccountHolder accountHolder;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "defaultCategory")
-    private String defaultCategory;
+    //e.g. savings or current or isa
+    @Column(name = "category")
+    private String category;
 
     @Column(name = "currency")
     private String currency;
@@ -21,32 +32,30 @@ public class Account {
     @Column(name = "createdAt")
     private String createdAt;
 
-    @Column(name = "balanceUid")
+    @OneToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name = "balanceUid")
     private Balance balance;
 
-    @Column(name = "accountLimits")
-    private AccountLimits accountLimits;
+    @OneToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name = "accountLimitId")
+    private AccountLimit accountLimit;
 
-    @Column(name = "accountType")
+    @OneToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name = "accountTypeUid")
     private AccountType accountType;
 
     public Account() {
     }
 
-    public Account(int accountUid, String description, String defaultCategory, String currency, String createdAt) {
+    public Account(int accountUid, String description, String category, String currency, String createdAt, Balance balance, AccountLimit accountLimit, AccountType accountType) {
         this.accountUid = accountUid;
         this.description = description;
-        this.defaultCategory = defaultCategory;
+        this.category = category;
         this.currency = currency;
         this.createdAt = createdAt;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+        this.balance = balance;
+        this.accountLimit = accountLimit;
+        this.accountType = accountType;
     }
 
     public int getAccountUid() {
@@ -57,12 +66,28 @@ public class Account {
         this.accountUid = accountUid;
     }
 
-    public String getDefaultCategory() {
-        return defaultCategory;
+    public AccountHolder getAccountHolder() {
+        return accountHolder;
     }
 
-    public void setDefaultCategory(String defaultCategory) {
-        this.defaultCategory = defaultCategory;
+    public void setAccountHolder(AccountHolder accountHolder) {
+        this.accountHolder = accountHolder;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getCurrency() {
@@ -89,12 +114,12 @@ public class Account {
         this.balance = balance;
     }
 
-    public AccountLimits getAccountLimits() {
-        return accountLimits;
+    public AccountLimit getAccountLimit() {
+        return accountLimit;
     }
 
-    public void setAccountLimits(AccountLimits accountLimits) {
-        this.accountLimits = accountLimits;
+    public void setAccountLimit(AccountLimit accountLimit) {
+        this.accountLimit = accountLimit;
     }
 
     public AccountType getAccountType() {

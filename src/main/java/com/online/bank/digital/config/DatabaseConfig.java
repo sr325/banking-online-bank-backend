@@ -1,13 +1,15 @@
 package com.online.bank.digital.config;
 
+import com.online.bank.digital.impl.DatabaseAccountImpl;
+import com.online.bank.digital.repository.IAccount;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -23,35 +25,32 @@ import java.util.Properties;
 public class DatabaseConfig {
 
 @Bean
-   public DataSource dataSource() {
+   public DataSource dataSource(@Value("${spring.datasource.url}") String url,
+                                @Value("${spring.datasource.username}") String username,
+                                @Value("${spring.datasource.password}") String password,
+                                @Value("${database.driver }") String driver) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUsername("root");
-        dataSource.setPassword("");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/onlineBank?createDatabaseIfNotExist=true");
+        dataSource.setDriverClassName(driver);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        dataSource.setUrl(url);
         return dataSource;
     }
 
     @Bean
     @Autowired
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,
+                                                                       @Qualifier("jpaProperties") Properties jpaProps) {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"com.online.bank.digital.model"});
-
-        Properties properties = new Properties();
-        properties.setProperty("spring.jpa.hibernate.ddl-auto", "update");
-        properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("hibernate.hbm2ddl.auto", "validate");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-
-        em.setJpaProperties(properties);
-
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        em.setJpaVendorAdapter(vendorAdapter);
+        em.setDataSource(dataSource);
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        em.setPackagesToScan("com.online.bank.digital.model");
+        em.setJpaProperties(jpaProps);
         return em;
     }
+
 
     @Bean
     @Autowired
@@ -61,20 +60,21 @@ public class DatabaseConfig {
         return transactionManager;
     }
 
-    @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
-        return new PersistenceExceptionTranslationPostProcessor();
+    @Bean(name = "jpaProperties")
+    public Properties sqlJpaProperties(@Value("${spring.jpa.hibernate.ddl-auto}") String ddlAuto){
+        Properties jpaProperties = new Properties();
+        jpaProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.OracleDialect");
+        jpaProperties.setProperty("hibernate.hbm2ddl.auto", ddlAuto);
+        jpaProperties.setProperty("hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
+        jpaProperties.setProperty("hibernate.show_sql", "false");
+        jpaProperties.setProperty("hibernate.generate_statistics", "false");
+        jpaProperties.setProperty("hibernate.use_sql_commands", "false");
+        jpaProperties.setProperty("hibernate.format_sql", "false");
+        return jpaProperties;
     }
 
-/*
     @Bean
-    Properties additionalProperties() {
-        Properties properties = new Properties();
-        properties.setProperty("spring.jpa.hibernate.ddl-auto", "update");
-        properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("hibernate.hbm2ddl.auto", "validate");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        return properties;
+    public IAccount localAccount() {
+        return new DatabaseAccountImpl();
     }
-*/
 }
