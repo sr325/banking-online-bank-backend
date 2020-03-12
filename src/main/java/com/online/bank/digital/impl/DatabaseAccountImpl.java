@@ -2,6 +2,7 @@ package com.online.bank.digital.impl;
 
 import com.online.bank.digital.model.*;
 import com.online.bank.digital.repository.IAccount;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,8 +18,14 @@ public class DatabaseAccountImpl implements IAccount {
     public AccountHolder getAccountHolderByAccountHolderUid(int accountHolderUid) throws Exception {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
-            return entityManager.find(AccountHolder.class, accountHolderUid);
-        } finally {
+            AccountHolder accountHolder = entityManager.find(AccountHolder.class, accountHolderUid);
+            Hibernate.initialize(accountHolder.getAccounts());
+            return accountHolder;
+        } catch (Exception ex){
+            entityManager.getTransaction().rollback();
+            throw ex;
+        }
+        finally {
             entityManager.close();
         }
     }
@@ -84,7 +91,19 @@ return null;
 
     @Override
     public Balance getBalanceByBalanceUid(int balanceUid) throws Exception {
-        return null;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Session session = entityManager.unwrap(Session.class);
+        try {
+            entityManager.getTransaction().begin();
+            Balance balance = entityManager.find(Balance.class, balanceUid);
+            return balance;
+        } catch (Exception ex){
+            entityManager.getTransaction().rollback();
+            throw ex;
+        } finally {
+            session.close();
+            entityManager.close();
+        }
     }
 
     @Override
@@ -94,6 +113,19 @@ return null;
 
     @Override
     public Balance saveOrUpdateBalance(Balance balance) throws Exception {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Session session = entityManager.unwrap(Session.class);
+        try {
+            entityManager.getTransaction().begin();
+            session.saveOrUpdate(balance);
+            entityManager.getTransaction().commit();
+        } catch (Exception ex){
+            entityManager.getTransaction().rollback();
+            throw ex;
+        } finally {
+            session.close();
+            entityManager.close();
+        }
         return null;
     }
 

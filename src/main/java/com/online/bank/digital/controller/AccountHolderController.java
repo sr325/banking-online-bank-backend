@@ -25,7 +25,7 @@ public class AccountHolderController {
 
     @GetMapping(value = "getAccountHolderByAccountHolderUid", produces = MediaType.APPLICATION_JSON_VALUE)
     public AccountHolder getAccountHolderByAccountHolderUid(@RequestParam final int accountHolderUid) throws Exception {
-        LOG.info("accountHolderUid is {}", accountHolderUid);
+        LOG.info("Getting details of accountHolderUid {}", accountHolderUid);
         return accountDAO.getAccountHolderByAccountHolderUid(accountHolderUid);
     }
 }
