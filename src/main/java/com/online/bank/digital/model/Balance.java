@@ -1,5 +1,7 @@
 package com.online.bank.digital.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,7 @@ public class Balance {
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "accountUid")
+    @JsonIgnore
     private Account account;
 
     @Column(name = "currentAmount")

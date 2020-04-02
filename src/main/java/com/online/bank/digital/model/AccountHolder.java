@@ -1,6 +1,7 @@
 package com.online.bank.digital.model;
 
 import lombok.Data;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +16,8 @@ public class AccountHolder {
 
     @OneToMany
     @JoinColumn(name = "accountUid")
+    @OrderBy("createdAt DESC")
+    @BatchSize(size = 1000)
     private List<Account> accounts;
 
     @Column(name = "firstName")
@@ -29,6 +32,9 @@ public class AccountHolder {
     //e.g. personal or business
     @Column(name = "category")
     private String category;
+
+    public AccountHolder() {
+    }
 
     public AccountHolder(int accountHolderUid, List<Account> accounts, String firstName, String lastName, String emailAddress, String category) {
         this.accountHolderUid = accountHolderUid;

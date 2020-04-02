@@ -1,0 +1,16 @@
+@Override
+public Balance getBalanceByBalanceUid(int balanceUid) throws Exception {
+    EntityManager entityManager = entityManagerFactory.createEntityManager();
+    Session session = entityManager.unwrap(Session.class);
+    try {
+        entityManager.getTransaction().begin();
+        Balance balance = entityManager.find(Balance.class, balanceUid);
+        return balance;
+    } catch (Exception ex){
+        entityManager.getTransaction().rollback();
+        throw ex;
+    } finally {
+        session.close();
+        entityManager.close();
+    }
+}
