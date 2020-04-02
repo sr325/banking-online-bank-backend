@@ -1,0 +1,4 @@
+netstat -o -n -a | findstr 8080
+taskkill /PID 24980 /F
+
+localhost:8080/swagger-ui.html

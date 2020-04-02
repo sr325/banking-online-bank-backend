@@ -23,7 +23,7 @@ public class AccountHolderController {
         return accountDAO.saveOrUpdateAccountHolder(accountHolder);
     }
 
-    @GetMapping(value = "getAccountHolderByAccountHolderUid", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getAccountHolderByAccountHolderUid", produces = MediaType.APPLICATION_JSON_VALUE)
     public AccountHolder getAccountHolderByAccountHolderUid(@RequestParam final int accountHolderUid) throws Exception {
         LOG.info("accountHolderUid is {}", accountHolderUid);
         return accountDAO.getAccountHolderByAccountHolderUid(accountHolderUid);
