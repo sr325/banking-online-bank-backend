@@ -7,31 +7,19 @@ import javax.persistence.*;
 @Entity
 @Table(name = "BALANCE")
 public class Balance {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(generator = "BALANCE_PK_SEQ", strategy = GenerationType.SEQUENCE)
     @Column(name = "balanceUid")
     private int balanceUid;
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "accountUid")
-    @JsonIgnore
-    private Account account;
-
-    @Column(name = "currentAmount")
+    @Column(name = "currentAmount", nullable = false)
     private int amount;
 
-    @Column(name = "savingAmount")
+    @Column(name = "savingAmount", nullable = false)
     private int savingAmount;
 
-    @Column(name = "pendingTransactions")
+    @Column(name = "pendingTransactions", nullable = false)
     private int pendingTransactions;
-
-    public Balance(int balanceUid, Account account, int amount, int savingAmount, int pendingTransactions) {
-        this.balanceUid = balanceUid;
-        this.account = account;
-        this.amount = amount;
-        this.savingAmount = savingAmount;
-        this.pendingTransactions = pendingTransactions;
-    }
 
     public int getBalanceUid() {
         return balanceUid;
@@ -39,14 +27,6 @@ public class Balance {
 
     public void setBalanceUid(int balanceUid) {
         this.balanceUid = balanceUid;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     public int getAmount() {

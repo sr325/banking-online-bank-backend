@@ -19,7 +19,7 @@ public class DatabaseAccountImpl implements IAccount {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             AccountHolder accountHolder = entityManager.find(AccountHolder.class, accountHolderUid);
-            Hibernate.initialize(accountHolder.getAccounts());
+            //Hibernate.initialize(accountHolder.getAccounts());
             return accountHolder;
         } catch (Exception ex){
             entityManager.getTransaction().rollback();

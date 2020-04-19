@@ -8,26 +8,16 @@ import javax.persistence.*;
 @Table(name = "ACCOUNT_LIMIT")
 @Data
 public class AccountLimit {
-    @Id @GeneratedValue
-    @Column(name = "accountLimitId")
+    @Id
+    @GeneratedValue(generator = "ACCOUNT_LIMIT_PK_SEQ", strategy = GenerationType.SEQUENCE)
+    @Column(name = "accountLimitId", nullable = false)
     private int accountLimitId;
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "accountUid")
-    private Account account;
-
-    @Column(name = "overdraftLimit")
+    @Column(name = "overdraftLimit", nullable = false)
     private int overdraftLimit;
 
-    @Column(name = "withdrawLimit")
+    @Column(name = "withdrawLimit", nullable = false)
     private int withdrawLimit;
-
-    public AccountLimit(int accountLimitId, Account account, int overdraftLimit, int withdrawLimit) {
-        this.accountLimitId = accountLimitId;
-        this.account = account;
-        this.overdraftLimit = overdraftLimit;
-        this.withdrawLimit = withdrawLimit;
-    }
 
     public int getAccountLimitId() {
         return accountLimitId;

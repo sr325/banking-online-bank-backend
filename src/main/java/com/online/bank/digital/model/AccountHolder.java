@@ -2,48 +2,38 @@ package com.online.bank.digital.model;
 
 import lombok.Data;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "ACCOUNT_HOLDER")
 @Data
 public class AccountHolder {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(generator = "ACCOUNT_HOLDER_PK_SEQ", strategy = GenerationType.SEQUENCE)
     @Column(name = "accountHolderUid")
     private int accountHolderUid;
 
-    @OneToMany
-    @JoinColumn(name = "accountUid")
-    @OrderBy("createdAt DESC")
-    @BatchSize(size = 1000)
-    private List<Account> accounts;
-
-    @Column(name = "firstName")
+    @Column(name = "firstName", nullable = false)
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "lastName", nullable = false)
     private String lastName;
 
-    @Column(name = "emailAddress")
+    @Column(name = "emailAddress", nullable = false)
     private String emailAddress;
 
     //e.g. personal or business
-    @Column(name = "category")
+    @Column(name = "category", nullable = false)
     private String category;
 
-    public AccountHolder() {
-    }
-
-    public AccountHolder(int accountHolderUid, List<Account> accounts, String firstName, String lastName, String emailAddress, String category) {
-        this.accountHolderUid = accountHolderUid;
-        this.accounts = accounts;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.emailAddress = emailAddress;
-        this.category = category;
-    }
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "fkAccountHolder", nullable = false)
+    private List<Account> accounts = new ArrayList<>();
 
     public int getAccountHolderUid() {
         return accountHolderUid;
@@ -51,14 +41,6 @@ public class AccountHolder {
 
     public void setAccountHolderUid(int accountHolderUid) {
         this.accountHolderUid = accountHolderUid;
-    }
-
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
     }
 
     public String getFirstName() {

@@ -11,52 +11,34 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 public class Account {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(generator = "ACCOUNT_PK_SEQ", strategy = GenerationType.SEQUENCE)
     @Column(name = "accountUid")
     private int accountUid;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "accountHolderUid")
-    private AccountHolder accountHolder;
-
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
     //e.g. savings or current or isa
-    @Column(name = "category")
+    @Column(name = "category", nullable = false)
     private String category;
 
-    @Column(name = "currency")
+    @Column(name = "currency", nullable = false)
     private String currency;
 
-    @Column(name = "createdAt")
+    @Column(name = "createdAt", nullable = false)
     private String createdAt;
 
-    @OneToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name = "balanceUid")
+    @OneToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
+    @JoinColumn(name = "fkBalance", nullable = false)
     private Balance balance;
 
-    @OneToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name = "accountLimitId")
+    @OneToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
+    @JoinColumn(name = "fkAccountLimit", nullable = false)
     private AccountLimit accountLimit;
 
-    @OneToOne(cascade={CascadeType.ALL})
-    @JoinColumn(name = "accountTypeUid")
+    @OneToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
+    @JoinColumn(name = "fkAccountType", nullable = false)
     private AccountType accountType;
-
-    public Account() {
-    }
-
-    public Account(int accountUid, String description, String category, String currency, String createdAt, Balance balance, AccountLimit accountLimit, AccountType accountType) {
-        this.accountUid = accountUid;
-        this.description = description;
-        this.category = category;
-        this.currency = currency;
-        this.createdAt = createdAt;
-        this.balance = balance;
-        this.accountLimit = accountLimit;
-        this.accountType = accountType;
-    }
 
     public int getAccountUid() {
         return accountUid;
@@ -64,14 +46,6 @@ public class Account {
 
     public void setAccountUid(int accountUid) {
         this.accountUid = accountUid;
-    }
-
-    public AccountHolder getAccountHolder() {
-        return accountHolder;
-    }
-
-    public void setAccountHolder(AccountHolder accountHolder) {
-        this.accountHolder = accountHolder;
     }
 
     public String getDescription() {

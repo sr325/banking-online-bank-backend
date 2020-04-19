@@ -10,35 +10,24 @@ What type of account he has? What type of card he holds? When did he opened an a
 
 
 @Entity
-@Table(name = "ACCOUNT_HOLDER_TYPE")
+@Table(name = "ACCOUNT_TYPE")
 @Data
 public class AccountType {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(generator = "ACCOUNT_TYPE_PK_SEQ", strategy = GenerationType.SEQUENCE)
     @Column(name = "accountTypeUid")
     private int accountTypeUid;
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "accountUid")
-    private Account account;
-
     //individual or business
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private String type;
 
     //basic or advanced
-    @Column(name = "cardType")
+    @Column(name = "cardType", nullable = false)
     private String cardType;
 
-    @Column(name = "registeredDate")
+    @Column(name = "registeredDate", nullable = false)
     private String registeredDate;
-
-    public AccountType(int accountTypeUid, Account account, String type, String cardType, String registeredDate) {
-        this.accountTypeUid = accountTypeUid;
-        this.account = account;
-        this.type = type;
-        this.cardType = cardType;
-        this.registeredDate = registeredDate;
-    }
 
     public int getAccountTypeUid() {
         return accountTypeUid;
@@ -46,14 +35,6 @@ public class AccountType {
 
     public void setAccountTypeUid(int accountTypeUid) {
         this.accountTypeUid = accountTypeUid;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     public String getType() {
