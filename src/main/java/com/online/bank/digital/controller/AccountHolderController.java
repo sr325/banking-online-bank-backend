@@ -18,8 +18,12 @@ public class AccountHolderController {
 
     @PostMapping(value = "/saveOrUpdateAccountHolder", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public AccountHolder accountHolder(@RequestBody AccountHolder accountHolder) throws Exception {
-        LOG.info(accountHolder.getFirstName());
+    public AccountHolder saveOrUpdateAccountHolder(@RequestBody AccountHolder accountHolder) throws Exception {
+        LOG.info("Saving or updateAccountHolder account holder");
+        LOG.info("firstname {}, lastname {}, emailaddress {}",
+                accountHolder.getFirstName(),
+                accountHolder.getLastName(),
+                accountHolder.getEmailAddress());
         return accountDAO.saveOrUpdateAccountHolder(accountHolder);
     }
 
@@ -27,5 +31,12 @@ public class AccountHolderController {
     public AccountHolder getAccountHolderByAccountHolderUid(@RequestParam final int accountHolderUid) throws Exception {
         LOG.info("Getting details of accountHolderUid {}", accountHolderUid);
         return accountDAO.getAccountHolderByAccountHolderUid(accountHolderUid);
+    }
+
+    @PostMapping(value = "/updateAccountHolder", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public AccountHolder updateAccountHolder(@RequestBody AccountHolder accountHolder) throws Exception {
+        LOG.info("Update for account holder {}", accountHolder.getAccountHolderUid());
+        return accountDAO.updateAccountHolder(accountHolder);
     }
 }

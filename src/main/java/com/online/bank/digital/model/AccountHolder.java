@@ -27,12 +27,8 @@ public class AccountHolder {
     @Column(name = "emailAddress", nullable = false)
     private String emailAddress;
 
-    //e.g. personal or business
-    @Column(name = "category", nullable = false)
-    private String category;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "fkAccountHolder", nullable = false)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "fkAccountHolder")
     private List<Account> accounts = new ArrayList<>();
 
     public int getAccountHolderUid() {
@@ -65,13 +61,5 @@ public class AccountHolder {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 }

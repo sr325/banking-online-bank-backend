@@ -1,6 +1,6 @@
 package com.online.bank.digital.config;
 
-import com.online.bank.digital.impl.DatabaseAccountImpl;
+import com.online.bank.digital.impl.DatabaseAccountHolderImpl;
 import com.online.bank.digital.repository.IAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -77,6 +77,6 @@ public class DatabaseConfig {
 
     @Bean
     public IAccount localAccount() {
-        return new DatabaseAccountImpl();
+        return new DatabaseAccountHolderImpl();
     }
 }

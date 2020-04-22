@@ -1,7 +1,5 @@
 package com.online.bank.digital.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 @Entity
@@ -13,13 +11,10 @@ public class Balance {
     private int balanceUid;
 
     @Column(name = "currentAmount", nullable = false)
-    private int amount;
-
-    @Column(name = "savingAmount", nullable = false)
-    private int savingAmount;
+    private double currentAmount;
 
     @Column(name = "pendingTransactions", nullable = false)
-    private int pendingTransactions;
+    private double pendingTransactions;
 
     public int getBalanceUid() {
         return balanceUid;
@@ -29,27 +24,19 @@ public class Balance {
         this.balanceUid = balanceUid;
     }
 
-    public int getAmount() {
-        return amount;
+    public double getCurrentAmount() {
+        return currentAmount;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setCurrentAmount(double currentAmount) {
+        this.currentAmount = currentAmount;
     }
 
-    public int getSavingAmount() {
-        return savingAmount;
-    }
-
-    public void setSavingAmount(int savingAmount) {
-        this.savingAmount = savingAmount;
-    }
-
-    public int getPendingTransactions() {
+    public double getPendingTransactions() {
         return pendingTransactions;
     }
 
-    public void setPendingTransactions(int pendingTransactions) {
+    public void setPendingTransactions(double pendingTransactions) {
         this.pendingTransactions = pendingTransactions;
     }
 }

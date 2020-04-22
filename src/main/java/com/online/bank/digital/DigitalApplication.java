@@ -15,7 +15,7 @@ public class DigitalApplication {
 		return args -> {
 
 			repository.save(new Account(1, "des", "test", "test", "test",
-					new Balance(), new AccountLimit(), new AccountType()));
+					new Balance(), new AccountLimit(), new AccountCategory()));
 		};
 	}*/
 }

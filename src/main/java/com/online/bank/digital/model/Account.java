@@ -4,8 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 @Entity
 @Table(name = "ACCOUNT")
 @Data
@@ -18,9 +16,8 @@ public class Account {
     @Column(name = "description", nullable = false)
     private String description;
 
-    //e.g. savings or current or isa
-    @Column(name = "category", nullable = false)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private AccountCategory category;
 
     @Column(name = "currency", nullable = false)
     private String currency;
@@ -28,17 +25,13 @@ public class Account {
     @Column(name = "createdAt", nullable = false)
     private String createdAt;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
-    @JoinColumn(name = "fkBalance", nullable = false)
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "fkBalance")
     private Balance balance;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
-    @JoinColumn(name = "fkAccountLimit", nullable = false)
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "fkAccountLimit")
     private AccountLimit accountLimit;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade={CascadeType.ALL})
-    @JoinColumn(name = "fkAccountType", nullable = false)
-    private AccountType accountType;
 
     public int getAccountUid() {
         return accountUid;
@@ -56,11 +49,11 @@ public class Account {
         this.description = description;
     }
 
-    public String getCategory() {
+    public AccountCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(AccountCategory category) {
         this.category = category;
     }
 
@@ -94,13 +87,5 @@ public class Account {
 
     public void setAccountLimit(AccountLimit accountLimit) {
         this.accountLimit = accountLimit;
-    }
-
-    public AccountType getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
     }
 }

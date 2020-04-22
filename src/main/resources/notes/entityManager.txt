@@ -14,3 +14,8 @@ public Balance getBalanceByBalanceUid(int balanceUid) throws Exception {
         entityManager.close();
     }
 }
+
+Eager/lazy loading in Hibernate
+-> Data fetching/lodaing strategy
+-> Eager loading is a design pattern in which data initialization  occurs on the spot
+-> Lazy loading is a design pattern which is used to defer initialization of an object as long as its possible
