@@ -1,7 +1,7 @@
 package com.online.bank.digital.impl;
 
 import com.online.bank.digital.model.AccountHolder;
-import com.online.bank.digital.repository.IAccount;
+import com.online.bank.digital.repository.IAccountHolder;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-public class DatabaseAccountHolderImpl implements IAccount {
+public class AccountHolderImpl implements IAccountHolder {
 
-    private static Logger LOG = LoggerFactory.getLogger(DatabaseAccountHolderImpl.class);
+    private static Logger LOG = LoggerFactory.getLogger(AccountHolderImpl.class);
 
     @Autowired
     private EntityManagerFactory entityManagerFactory;
@@ -74,6 +74,26 @@ public class DatabaseAccountHolderImpl implements IAccount {
             return databaseAccountHolder;
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
+            throw ex;
+        } finally {
+            session.close();
+            entityManager.close();
+        }
+    }
+
+    @Override
+    public void deleteAccountHolder(int accountHolderId) throws Exception {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Session session = entityManager.unwrap(Session.class);
+
+        try {
+            entityManager.getTransaction().begin();
+            AccountHolder accountHolder = entityManager.find(AccountHolder.class, accountHolderId);
+            session.remove(accountHolder);
+            entityManager.flush();
+            entityManager.getTransaction().commit();
+        } catch (Exception ex){
+            entityManager.getTransaction().commit();
             throw ex;
         } finally {
             session.close();

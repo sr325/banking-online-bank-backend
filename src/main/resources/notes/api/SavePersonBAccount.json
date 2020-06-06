@@ -1,0 +1,39 @@
+{
+  "accountHolderUid": 0,
+  "accounts": [
+    {
+      "accountUid": 0,
+      "card": {
+        "accountLimit": {
+          "accountLimitId": 0,
+          "overdraftLimit": 50000000,
+          "withdrawLimit": 50000000
+        },
+        "accountNumber": 987654321,
+        "balance": {
+          "balance": 50000000,
+          "balanceUid": 0
+        },
+        "category": "CURRENT",
+        "cvv2Number": 321,
+        "expirationDate": "2025-06-02T06:25:54.936Z",
+        "id": 0,
+        "name": "BankX",
+        "number": 987654321987654321,
+        "sortCode": "20-20-20",
+        "transactions": [
+          {
+            "amount": 10,
+            "transactionType": "CREDIT",
+            "transaction_id": 0
+          }
+        ]
+      },
+      "createdAt": "2020-06-02T06:25:54.936Z",
+      "description": "Test account 2"
+    }
+  ],
+  "emailAddress": "luna@gmail.com",
+  "firstName": "Luna",
+  "lastName": "Rana"
+}

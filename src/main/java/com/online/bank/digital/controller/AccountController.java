@@ -1,27 +1,27 @@
 package com.online.bank.digital.controller;
 
+import com.online.bank.digital.model.Account;
+import com.online.bank.digital.repository.IAccount;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api")
 public class AccountController {
-    private static final Logger LOG = Logger.getLogger(AccountController.class.getName());
+    private static Logger LOG = LoggerFactory.getLogger(AccountController.class);
 
-/*    @Autowired
-    private IAccountRepository accountRepository;
+    @Autowired
+    private IAccount accountDAO;
 
-    //Get all details of account using accountId
-    @GetMapping(value = "/{account}", produces = "application/json")
-    public Optional<Account> getAccount(@PathVariable final String accountId) {
-        Optional<Account> account = accountRepository.findById(accountId);
-        LOG.info("Account id is :{}");
-        account.ifPresent(System.out::println);
-        return account;
-    }*/
-
-
-
+    @GetMapping(value = "/getAccount", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Account getAccount(@RequestParam final int accountId) {
+        return accountDAO.getAccount(accountId);
+    }
 }
+

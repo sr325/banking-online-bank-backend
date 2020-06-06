@@ -1,0 +1,39 @@
+{
+  "accountHolderUid": 0,
+  "accounts": [
+    {
+      "accountUid": 0,
+      "card": {
+        "accountLimit": {
+          "accountLimitId": 0,
+          "overdraftLimit": 10000000,
+          "withdrawLimit": 10000000
+        },
+        "accountNumber": 123456789,
+        "balance": {
+          "balance": 10000000,
+          "balanceUid": 0
+        },
+        "category": "CURRENT",
+        "cvv2Number": 123,
+        "expirationDate": "2025-06-02T06:25:54.936Z",
+        "id": 0,
+        "name": "BankX",
+        "number": 123456789123456789,
+        "sortCode": "20-20-20",
+        "transactions": [
+          {
+            "amount": 10,
+            "transactionType": "DEBIT",
+            "transaction_id": 0
+          }
+        ]
+      },
+      "createdAt": "2020-06-02T06:25:54.936Z",
+      "description": "Test account"
+    }
+  ],
+  "emailAddress": "sandesh@gmail.com",
+  "firstName": "Sandesh",
+  "lastName": "Rana"
+}

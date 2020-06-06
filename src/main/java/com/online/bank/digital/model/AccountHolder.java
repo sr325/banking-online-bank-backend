@@ -1,9 +1,6 @@
 package com.online.bank.digital.model;
 
 import lombok.Data;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,6 +12,7 @@ import java.util.List;
 public class AccountHolder {
     @Id
     @GeneratedValue(generator = "ACCOUNT_HOLDER_PK_SEQ", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "ACCOUNT_HOLDER_PK_SEQ", allocationSize = 1)
     @Column(name = "accountHolderUid")
     private int accountHolderUid;
 
@@ -61,5 +59,13 @@ public class AccountHolder {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 }

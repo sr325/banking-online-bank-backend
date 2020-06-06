@@ -1,7 +1,11 @@
 package com.online.bank.digital.config;
 
-import com.online.bank.digital.impl.DatabaseAccountHolderImpl;
+import com.online.bank.digital.impl.AccountHolderImpl;
+import com.online.bank.digital.impl.AccountImpl;
+import com.online.bank.digital.impl.TransactionImpl;
 import com.online.bank.digital.repository.IAccount;
+import com.online.bank.digital.repository.IAccountHolder;
+import com.online.bank.digital.repository.ITransaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,11 +28,11 @@ import java.util.Properties;
 @PropertySource(value = {"classpath:application.properties"})
 public class DatabaseConfig {
 
-@Bean
-   public DataSource dataSource(@Value("${spring.datasource.url}") String url,
-                                @Value("${spring.datasource.username}") String username,
-                                @Value("${spring.datasource.password}") String password,
-                                @Value("${database.driver}") String driver) {
+    @Bean
+    public DataSource dataSource(@Value("${spring.datasource.url}") String url,
+                                 @Value("${spring.datasource.username}") String username,
+                                 @Value("${spring.datasource.password}") String password,
+                                 @Value("${database.driver}") String driver) {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(driver);
         dataSource.setUsername(username);
@@ -63,7 +67,7 @@ public class DatabaseConfig {
     @Bean(name = "jpaProperties")
     public Properties sqlJpaProperties(@Value("${spring.jpa.hibernate.ddl-auto}") String ddlAuto,
                                        @Value("${spring.jpa.properties.hibernate.dialect}") String dialect,
-                                       @Value("${spring.jpa.hibernate.naming-strategy}") String namingStrategy){
+                                       @Value("${spring.jpa.hibernate.naming-strategy}") String namingStrategy) {
         Properties jpaProperties = new Properties();
         jpaProperties.setProperty("hibernate.dialect", dialect);
         jpaProperties.setProperty("hibernate.hbm2ddl.auto", ddlAuto);
@@ -76,7 +80,17 @@ public class DatabaseConfig {
     }
 
     @Bean
+    public IAccountHolder localAccountHolder() {
+        return new AccountHolderImpl();
+    }
+
+    @Bean
+    public ITransaction localTransaction() {
+        return new TransactionImpl();
+    }
+
+    @Bean
     public IAccount localAccount() {
-        return new DatabaseAccountHolderImpl();
+        return new AccountImpl();
     }
 }

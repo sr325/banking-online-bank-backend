@@ -7,14 +7,12 @@ import javax.persistence.*;
 public class Balance {
     @Id
     @GeneratedValue(generator = "BALANCE_PK_SEQ", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "BALANCE_PK_SEQ", allocationSize = 1)
     @Column(name = "balanceUid")
     private int balanceUid;
 
-    @Column(name = "currentAmount", nullable = false)
-    private double currentAmount;
-
-    @Column(name = "pendingTransactions", nullable = false)
-    private double pendingTransactions;
+    @Column(name = "balance", nullable = false)
+    private float balance;
 
     public int getBalanceUid() {
         return balanceUid;
@@ -24,19 +22,11 @@ public class Balance {
         this.balanceUid = balanceUid;
     }
 
-    public double getCurrentAmount() {
-        return currentAmount;
+    public double getBalance() {
+        return balance;
     }
 
-    public void setCurrentAmount(double currentAmount) {
-        this.currentAmount = currentAmount;
-    }
-
-    public double getPendingTransactions() {
-        return pendingTransactions;
-    }
-
-    public void setPendingTransactions(double pendingTransactions) {
-        this.pendingTransactions = pendingTransactions;
+    public void setBalance(float balance) {
+        this.balance = balance;
     }
 }

@@ -3,8 +3,6 @@ package com.online.bank.digital.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "ACCOUNT_LIMIT")
@@ -12,6 +10,7 @@ import java.util.List;
 public class AccountLimit {
     @Id
     @GeneratedValue(generator = "ACCOUNT_LIMIT_PK_SEQ", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "ACCOUNT_LIMIT_PK_SEQ", allocationSize = 1)
     @Column(name = "accountLimitId")
     private int accountLimitId;
 
